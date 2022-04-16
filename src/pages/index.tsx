@@ -1,31 +1,56 @@
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
-import { PrefectureDetail, Prefectures } from 'types/prefecture'
+import { useCallback, useState } from 'react'
+import { CheckBoxGroup } from 'components/CheckBoxGroup'
+import { PrefDetail, PrefInfo, PrefsResponse } from 'types/prefecture'
 import { getApi } from 'utils/getApi'
 
 type ServerSideProps = {
-  prefectures: Prefectures
+  prefs: PrefInfo[]
 }
 type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>
 
-export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
-  ctx
-) => {
-  const prefectures = await getApi<Prefectures>(
-    'https://opendata.resas-portal.go.jp/api/v1/prefectures'
-  )
-  return { props: { prefectures } }
-}
+const Home: NextPage<PageProps> = ({ prefs }) => {
+  const [selectedPrefs, setSelectedPrefs] = useState<PrefDetail[]>([])
 
-const Home: NextPage<PageProps> = ({ prefectures }) => {
-  const data = getApi<PrefectureDetail>(
-    'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=1'
-  )
+  const addPref = useCallback(async (prefCode: number) => {
+    const newData = await getApi<PrefDetail>(
+      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
+    )
+    setSelectedPrefs((postData) => [
+      ...postData,
+      {
+        prefCode,
+        ...newData,
+      },
+    ])
+  }, [])
+
+  const deletePref = useCallback((prefCode: number) => {
+    setSelectedPrefs((postData) =>
+      postData.filter((v) => v.prefCode !== prefCode)
+    )
+  }, [])
+
   return (
     <>
-      <div>{JSON.stringify(prefectures)}</div>
-      <div>{JSON.stringify(data)}</div>
+      <CheckBoxGroup
+        prefs={prefs}
+        selectedPrefs={selectedPrefs}
+        addPref={(prefCode) => addPref(prefCode)}
+        deletePref={(prefCode) => deletePref(prefCode)}
+      />
+      <div>{JSON.stringify(selectedPrefs)}</div>
     </>
   )
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps<
+  ServerSideProps
+> = async () => {
+  const prefsResponse = await getApi<PrefsResponse>(
+    'https://opendata.resas-portal.go.jp/api/v1/prefectures'
+  )
+  return { props: { prefs: prefsResponse.result } }
+}
