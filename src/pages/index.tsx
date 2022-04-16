@@ -36,8 +36,8 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
       <CheckBoxGroup
         prefs={prefs}
         selectedPrefs={selectedPrefs}
-        addPref={(prefCode) => addPref(prefCode)}
-        deletePref={(prefCode) => deletePref(prefCode)}
+        addPref={addPref}
+        deletePref={deletePref}
       />
       <div>{JSON.stringify(selectedPrefs)}</div>
     </>
