@@ -6,7 +6,14 @@ export type PrefsResponse = {
 }
 
 export type PrefDetail = {
-  prefCode?: number
-  boundaryYear: number
-  data: Array<{ label: string; data: Array<{ year: number; value: number }> }>
+  prefCode: number
+  data: Array<{ year: number; value: number }>
+}
+
+export type PrefDetailResponse = {
+  message: null
+  result: {
+    boundaryYear: number
+    data: Array<{ label: string; data: Array<{ year: number; value: number }> }>
+  }
 }

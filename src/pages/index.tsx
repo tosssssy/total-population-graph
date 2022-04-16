@@ -1,7 +1,12 @@
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import { useCallback, useState } from 'react'
 import { CheckBoxGroup } from 'components/CheckBoxGroup'
-import { PrefDetail, PrefInfo, PrefsResponse } from 'types/prefecture'
+import {
+  PrefDetail,
+  PrefDetailResponse,
+  PrefInfo,
+  PrefsResponse,
+} from 'types/prefecture'
 import { getApi } from 'utils/getApi'
 
 type ServerSideProps = {
@@ -13,14 +18,15 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
   const [selectedPrefs, setSelectedPrefs] = useState<PrefDetail[]>([])
 
   const addPref = useCallback(async (prefCode: number) => {
-    const newData = await getApi<PrefDetail>(
+    const newData = await getApi<PrefDetailResponse>(
       `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
     )
+
     setSelectedPrefs((postData) => [
       ...postData,
       {
         prefCode,
-        ...newData,
+        data: newData.result.data.find((v) => v.label === '総人口')?.data || [],
       },
     ])
   }, [])
