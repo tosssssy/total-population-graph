@@ -1,13 +1,14 @@
 export type PrefInfo = { prefCode: number; prefName: string }
 
+export type PrefDetail = {
+  prefCode: number
+  prefName: string
+  data: Array<{ year: number; value: number }>
+}
+
 export type PrefsResponse = {
   message: null
   result: Array<PrefInfo>
-}
-
-export type PrefDetail = {
-  prefCode: number
-  data: Array<{ year: number; value: number }>
 }
 
 export type PrefDetailResponse = {
