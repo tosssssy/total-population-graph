@@ -15,32 +15,36 @@ export const CheckBoxGroup: FC<Props> = ({
   deletePref,
 }) => {
   const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, prefCode: number) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.checked) {
-        addPref(prefCode)
+        addPref(Number(e.target.value))
       } else {
-        deletePref(prefCode)
+        deletePref(Number(e.target.value))
       }
     },
     [addPref, deletePref]
   )
   return (
-    <div>
-      {prefs.map((pref) => {
-        const isSelected = selectedPrefs.find(
-          (v) => v.prefCode === pref.prefCode
-        )
-        return (
-          <label key={pref.prefCode}>
-            <input
-              type='checkbox'
-              checked={isSelected ? true : false}
-              onChange={(e) => onChange(e, pref.prefCode)}
-            />
-            <span>{pref.prefName}</span>
-          </label>
-        )
-      })}
+    <div id='checkbox-group-wrapper'>
+      <p>都道府県</p>
+      <div>
+        {prefs.map((pref) => {
+          const isSelected = selectedPrefs.find(
+            (v) => v.prefCode === pref.prefCode
+          )
+          return (
+            <label key={pref.prefCode}>
+              <input
+                type='checkbox'
+                checked={isSelected ? true : false}
+                value={pref.prefCode}
+                onChange={(e) => onChange(e)}
+              />
+              <span>{pref.prefName}</span>
+            </label>
+          )
+        })}
+      </div>
     </div>
   )
 }
