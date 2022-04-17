@@ -22,7 +22,30 @@ ChartJS.register(
   Tooltip,
   Legend
 )
-const labels = [1980, 1990, 2000, 2010, 2020]
+const labels = [1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020]
+const options = {
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: {
+        padding: 15,
+        font: {
+          size: 16,
+        },
+      },
+    },
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: '年度',
+        align: 'end',
+      },
+    },
+  },
+} as const
 
 type Props = {
   displayPrefs: PrefDetail[]
@@ -46,9 +69,11 @@ export const LineGraph: FC<Props> = ({ displayPrefs }) => {
       ],
     }
   }, [displayPrefs])
+
   return (
-    <div>
-      <Line data={data} />
+    <div id='line-graph-wrapper'>
+      <span>人口数</span>
+      <Line width={'100%'} height={'100%'} data={data} options={options} />
     </div>
   )
 }

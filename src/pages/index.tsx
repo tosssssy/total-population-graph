@@ -44,13 +44,23 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
 
   return (
     <>
-      <CheckBoxGroup
-        prefs={prefs}
-        selectedPrefs={selectedPrefs}
-        addPref={addPref}
-        deletePref={deletePref}
-      />
-      <LineGraph displayPrefs={selectedPrefs} />
+      <header>
+        <h1>
+          <span> 都道府県別の</span>
+          <span> 総人口推移グラフ</span>
+        </h1>
+      </header>
+      <main>
+        <div id='main-container'>
+          <CheckBoxGroup
+            prefs={prefs}
+            selectedPrefs={selectedPrefs}
+            addPref={addPref}
+            deletePref={deletePref}
+          />
+          <LineGraph displayPrefs={selectedPrefs} />
+        </div>
+      </main>
     </>
   )
 }
