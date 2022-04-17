@@ -45,7 +45,10 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
   return (
     <>
       <header>
-        <h1>都道府県別の総人口推移グラフ</h1>
+        <h1>
+          <span> 都道府県別の</span>
+          <span> 総人口推移グラフ</span>
+        </h1>
       </header>
       <main>
         <div id='main-container'>
