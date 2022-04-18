@@ -1,14 +1,14 @@
-import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import { CheckBoxGroup } from 'components/CheckBoxGroup'
 import { LineGraph } from 'components/LineGraph'
 import { usePrefecture } from 'hooks/usePrefecture'
 import { PrefInfo, PrefsResponse } from 'types/prefecture'
 import { getApi } from 'utils/getApi'
 
-type ServerSideProps = {
+type StaticProps = {
   prefs: PrefInfo[]
 }
-type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>
+type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 const Home: NextPage<PageProps> = ({ prefs }) => {
   const { selectedPrefs, addPref, deletePref } = usePrefecture(prefs)
@@ -38,11 +38,13 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps<
-  ServerSideProps
-> = async () => {
+export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const prefsResponse = await getApi<PrefsResponse>(
     'https://opendata.resas-portal.go.jp/api/v1/prefectures'
   )
-  return { props: { prefs: prefsResponse.result } }
+  return {
+    props: {
+      prefs: prefsResponse.result,
+    },
+  }
 }
