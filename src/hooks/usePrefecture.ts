@@ -8,10 +8,9 @@ export const usePrefecture = (prefs: PrefInfo[]) => {
 
   const addPref = useCallback(
     async (prefCode: number) => {
-      const cachedData = cache.find((v) => v.prefCode === prefCode)
-
       let newData: PrefDetail
 
+      const cachedData = cache.find((v) => v.prefCode === prefCode)
       if (cachedData) {
         newData = cachedData
       } else {
