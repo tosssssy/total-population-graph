@@ -6,11 +6,11 @@ import { PrefInfo, PrefsResponse } from 'types/prefecture'
 import { getApi } from 'utils/getApi'
 
 type StaticProps = {
-  prefs: PrefInfo[]
+  prefs?: PrefInfo[]
 }
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const Home: NextPage<PageProps> = ({ prefs }) => {
+const Home: NextPage<PageProps> = ({ prefs = [] }) => {
   const { selectedPrefs, addPref, deletePref } = usePrefecture(prefs)
 
   return (
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   )
   return {
     props: {
-      prefs: prefsResponse.result,
+      prefs: prefsResponse?.result,
     },
   }
 }

@@ -22,7 +22,7 @@ export const usePrefecture = (prefs: PrefInfo[]) => {
           prefCode,
           prefName: prefs.find((v) => v.prefCode === prefCode)?.prefName || '',
           data:
-            response.result.data.find((v) => v.label === '総人口')?.data || [],
+            response?.result.data.find((v) => v.label === '総人口')?.data || [],
         }
         setCache((postData) => [...postData, newData])
       }
