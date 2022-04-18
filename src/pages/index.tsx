@@ -1,5 +1,4 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import Head from 'next/head'
 import { CheckBoxGroup } from 'components/CheckBoxGroup'
 import { LineGraph } from 'components/LineGraph'
 import { usePrefecture } from 'hooks/usePrefecture'
@@ -16,11 +15,6 @@ const Home: NextPage<PageProps> = ({ prefs }) => {
 
   return (
     <>
-      <Head>
-        <title>都道府県別の総人口推移グラフ</title>
-        <meta name='description' content='都道府県別の総人口推移グラフ' />
-      </Head>
-
       <header>
         <h1>
           <span> 都道府県別の</span>
