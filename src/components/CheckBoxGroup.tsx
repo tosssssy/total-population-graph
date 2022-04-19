@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback } from 'react'
+import { FC } from 'react'
 import { PrefDetail, PrefInfo } from 'types/prefecture'
 
 type Props = {
@@ -14,16 +14,6 @@ export const CheckBoxGroup: FC<Props> = ({
   addPref,
   deletePref,
 }) => {
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.checked) {
-        addPref(Number(e.target.value))
-      } else {
-        deletePref(Number(e.target.value))
-      }
-    },
-    [addPref, deletePref]
-  )
   return (
     <div id='checkbox-group-wrapper'>
       <p>都道府県</p>
@@ -38,7 +28,11 @@ export const CheckBoxGroup: FC<Props> = ({
                 type='checkbox'
                 checked={isSelected ? true : false}
                 value={pref.prefCode}
-                onChange={(e) => onChange(e)}
+                onChange={(e) =>
+                  e.target.checked
+                    ? addPref(Number(e.target.value))
+                    : deletePref(Number(e.target.value))
+                }
               />
               <span>{pref.prefName}</span>
             </label>
